@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.description = "Easy-to-use french voice synthesizer"
   s.authors     = ["Galaad Gauthier"]
   s.email       = 'coontail7@gmail.com'
-  s.files       = `git ls-files`.split("\n")
+  s.files       = Dir['**/*']
   s.executables  = ["voxbi"]
   s.require_path = 'lib'
   s.homepage    =
