@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 ROOT = File.expand_path("../..", __FILE__)
+SPE = /([•|—|–|^|\r|°|“|”|...|\u00a0|«|»|…|\\|\/|!|?|\"|\'|\[|\]|\(|\)|\]|<|>|=|+|%|$|&|#|;|*|:|}|{|`])/
 
 def parseCSV(path)
 	Hash[File.open("#{ROOT}/data/#{path}.csv").read.split("\n").map {|ligne| ligne.split("#")}]
@@ -15,7 +16,8 @@ def conversion
 end
 
 def apimatch(texte)
-	texte.gsub(/-'",:;\.\(\)/, "").split.map do |mot|
+	texte = texte.downcase
+	texte.gsub(SPE, "").split.map do |mot|
 		exceptions[mot] || "".tap do |result|
 			conversion.select { |regle| mot =~ /#{regle}/ }.first.tap do |regle, api|
 				mot.sub! /#{regle}/, ""
