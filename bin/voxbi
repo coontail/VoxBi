@@ -1,14 +1,16 @@
 #!/usr/bin/env ruby
 
+require "json"
+
 ROOT = File.expand_path("../..", __FILE__)
-SPE = /([•|—|–|^|\r|°|“|”|...|\u00a0|«|»|…|\\|\/|!|?|\"|\'|\[|\]|\(|\)|\]|<|>|=|+|%|$|&|#|;|*|:|}|{|`])/
+SPE = /([(0-9)|•|—|–|\-|,|?|!|^|\r|°|“|”|...|\u00a0|«|»|…|\\|\/|!|?|\"|\'|\[|\]|\(|\)|\]|<|>|=|+|%|$|&|#|;|*|:|}|{|`])/
 
 def parseCSV(path)
 	Hash[File.open("#{ROOT}/data/#{path}.csv").read.split("\n").map {|ligne| ligne.split("#")}]
 end
 
 def exceptions
-	@exceptions ||= parseCSV "exceptions"
+	@exceptions ||= JSON.parse(File.read("#{ROOT}/data/phono.json"))
 end
 
 def conversion
