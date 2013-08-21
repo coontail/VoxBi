@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'voxbi'
-  s.version     = '0.1.3'
+  s.version     = '0.1.4'
   s.date        = '2013-08-16'
   s.summary     = "VoxBi"
   s.description = "Easy-to-use french voice synthesizer"
@@ -12,4 +12,5 @@ Gem::Specification.new do |s|
   s.homepage    =
     'https://github.com/Galaad-Gauthier/VoxBi'
   s.license       = 'MIT'
+  s.add_dependency "json"
 end
