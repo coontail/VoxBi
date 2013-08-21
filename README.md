@@ -1,5 +1,7 @@
 #VoxBi
 
+## Ruby Voice synthesizer based on IPA (International Phonetic Alphabet)
+
 *Requires* : Sox
 
 *Install voxbi* :
