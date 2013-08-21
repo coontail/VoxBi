@@ -9,12 +9,21 @@
 gem install voxbi
 ~~~
 
-*Use voxbi* :
+*Use voxbi as an executable* :
 
 ~~~
 $ voxbi Bonjour
 
 "bσʒur"
-Playing WAVE '/home/<USER>/.gem/ruby/gems/voxbi-0.1.3/data/paires.wav' 
+Playing WAVE '/home/<USER>/.gem/ruby/gems/voxbi-0.1.4/data/paires.wav' 
 ~~~
 
+*Use voxbi as a library*
+
+~~~
+ > apimatch("la tour effeil")
+=> ["la", "tur", "ɛfɛl"]
+
+ > voxbi("Voulez vous coucher avec moi ce soir ?")
+Playing WAVE '/home/<USER>/.gem/ruby/gems/voxbi-0.1.4/data/paires.wav'
+~~~
