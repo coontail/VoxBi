@@ -21,9 +21,6 @@ Playing WAVE '/home/<USER>/.gem/ruby/gems/voxbi-0.1.4/data/paires.wav'
 *Use voxbi as a library*
 
 ~~~
-> apimatch("la tour eiffel")
-=> ["la", "tur", "ɛfɛl"]
-
 > voxbi("Voulez vous coucher avec moi ce soir ?")
 => Playing WAVE '/home/<USER>/.gem/ruby/gems/voxbi-0.1.4/data/paires.wav'
 ~~~
