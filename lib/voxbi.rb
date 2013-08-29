@@ -17,9 +17,18 @@ def conversion
 	@conversion ||= parseCSV "conversion"
 end
 
+def liaisons
+	@liaisons ||= parseCSV "liaisons"
+end
+
+def clean(texte)
+	return texte.downcase.gsub(SPE, "").split
+end
+
 def apimatch(texte)
-	texte = texte.downcase
-	texte.gsub(SPE, "").split.map do |mot|
+	graphie = clean(texte)
+	clean_text = clean(texte)
+	phono = clean_text.map do |mot|
 		exceptions[mot] || "".tap do |result|
 			conversion.select { |regle| mot =~ /#{regle}/ }.first.tap do |regle, api|
 				mot.sub! /#{regle}/, ""
@@ -27,7 +36,21 @@ def apimatch(texte)
 			end until mot.empty?
 		end
 	end
+	return liaison(graphie,phono)
 end
+
+def liaison(texte,phono)
+	texte.each_with_index do |mot,id|
+		if phono[id+1]
+			lien = mot[-1] + phono[id+1][0]
+			match = liaisons.select {|k,v| lien =~ /#{k}/ }.first
+			match ? phono[id+1] = match[1].to_s + phono[id+1] : next
+		end
+	end
+	return phono
+end
+	
+	
 
 def voxbi(texte)
 	paires_dispo = File.open("#{ROOT}/data/paires_disponibles.csv").read.split("\n")
