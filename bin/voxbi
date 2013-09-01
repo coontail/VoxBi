@@ -4,4 +4,4 @@ require "json"
 root = File.expand_path("../..", __FILE__)
 require "#{root}/lib/voxbi.rb"
 
-voxbi(ARGV[0])
+Voxbi.voxbi(ARGV[0])
