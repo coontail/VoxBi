@@ -5,6 +5,7 @@ require "json"
 module Voxbi
 
 	ROOT = File.expand_path("../..", __FILE__)
+	FILE_PATH = "#{ROOT}/data/paires.wav"
 	eval(File.read("#{ROOT}/lib/special_chars.rb"))
 
 	def Voxbi.parseCSV(path)
@@ -68,8 +69,8 @@ module Voxbi
 				end
 			end
 		end
-		`sox #{fichiers.join(" ")} #{ROOT}/data/paires.wav`
-		`aplay  #{ROOT}/data/paires.wav`
+		`sox #{fichiers.join(" ")} #{FILE_PATH}`
+		`aplay  #{FILE_PATH}`
 	end
 
 
