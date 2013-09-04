@@ -12,8 +12,12 @@ module Voxbi
 		Hash[File.open("#{ROOT}/data/#{path}.csv").read.split("\n").map {|ligne| ligne.split("#")}]
 	end
 
+	def Voxbi.dict
+		@dict ||= JSON.parse(File.read("#{ROOT}/data/phono.json"))
+	end
+
 	def Voxbi.exceptions
-		@exceptions ||= JSON.parse(File.read("#{ROOT}/data/phono.json"))
+		@exceptions ||= parseCSV "exceptions"
 	end
 
 	def Voxbi.conversion
@@ -24,15 +28,20 @@ module Voxbi
 		@liaisons ||= parseCSV "liaisons"
 	end
 
+	def Voxbi.apply_exceptions
+		exceptions.each {|k,v| dict[k] = v}
+	end
+
 	def Voxbi.clean(texte)
 		return texte.downcase.gsub(SPE, "").split
 	end
 
 	def Voxbi.apimatch(texte)
+		apply_exceptions
 		graphie = clean(texte)
 		clean_text = clean(texte)
 		phono = clean_text.map do |mot|
-			exceptions[mot] || "".tap do |result|
+			dict[mot] || "".tap do |result|
 				conversion.select { |regle| mot =~ /#{regle}/ }.first.tap do |regle, api|
 					mot.sub! /#{regle}/, ""
 					result << api.to_s
