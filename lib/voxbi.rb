@@ -5,7 +5,7 @@ require "json"
 module Voxbi
 
 	ROOT = File.expand_path("../..", __FILE__)
-	FILE_PATH = "#{ROOT}/data/paires.wav"
+	@output_path = "#{ROOT}/data/paires.wav"
 	eval(File.read("#{ROOT}/lib/special_chars.rb"))
 
 	def Voxbi.parseCSV(path)
@@ -28,6 +28,14 @@ module Voxbi
 		@liaisons ||= parseCSV "liaisons"
 	end
 
+	def Voxbi.set_output_path(p)
+		@output_path = p
+	end
+
+	def Voxbi.output_path
+		@output_path
+	end
+	
 	def Voxbi.apply_exceptions
 		exceptions.each {|k,v| dict[k] = v}
 	end
@@ -78,8 +86,8 @@ module Voxbi
 				end
 			end
 		end
-		`sox #{fichiers.join(" ")} #{FILE_PATH}`
-		`aplay  #{FILE_PATH}`
+		`sox #{fichiers.join(" ")} #{output_path}`
+		`aplay  #{output_path}`
 	end
 
 
