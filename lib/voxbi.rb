@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require "json"
+require "numbers_and_words"
 
 module Voxbi
 
@@ -41,7 +42,15 @@ module Voxbi
 	end
 
 	def Voxbi.clean(texte)
-		return texte.downcase.gsub(SPE, "").split
+		new_text = texte.downcase.gsub(SPE, "").split
+		new_text.map! do |word|
+			if word.to_i != 0
+				I18n.with_locale(:fr) { word.to_i.to_words.gsub("-"," ").split}
+			else
+				word
+			end
+		end
+		return new_text.flatten
 	end
 
 	def Voxbi.apimatch(texte)
