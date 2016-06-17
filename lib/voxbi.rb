@@ -53,11 +53,10 @@ module Voxbi
 		return new_text.flatten
 	end
 
-	def Voxbi.apimatch(texte)
+	def Voxbi.phono(text)
 		apply_exceptions
-		graphie = clean(texte)
-		clean_text = clean(texte)
-		phono = clean_text.map do |mot|
+
+		clean(texte).map do |mot|
 			dict[mot] || "".tap do |result|
 				conversion.select { |regle| mot =~ /#{regle}/ }.first.tap do |regle, api|
 					mot.sub! /#{regle}/, ""
@@ -65,6 +64,13 @@ module Voxbi
 				end until mot.empty?
 			end
 		end
+	end
+
+	def Voxbi.apimatch(texte)
+		apply_exceptions
+		graphie = clean(texte)
+		phono = phono(texte)
+
 		return liaison(graphie,phono)
 	end
 
@@ -79,8 +85,6 @@ module Voxbi
 		return phono
 	end
 	
-	
-
 	def Voxbi.voxbi(texte)
 		paires_dispo = File.open("#{ROOT}/data/paires_disponibles.csv").read.split("\n")
 		api = apimatch(texte).join "_"

@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'voxbi'
-  s.version     = '0.3.0'
+  s.version     = '0.3.1'
   s.date        = '2013-09-22'
   s.summary     = "VoxBi"
   s.description = "Easy-to-use french voice synthesizer"
