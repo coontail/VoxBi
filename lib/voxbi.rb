@@ -56,7 +56,7 @@ module Voxbi
 	def Voxbi.phono(text)
 		apply_exceptions
 
-		clean(texte).map do |mot|
+		clean(text).map do |mot|
 			dict[mot] || "".tap do |result|
 				conversion.select { |regle| mot =~ /#{regle}/ }.first.tap do |regle, api|
 					mot.sub! /#{regle}/, ""
