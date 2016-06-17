@@ -84,21 +84,26 @@ module Voxbi
 		end
 		return phono
 	end
-	
-	def Voxbi.voxbi(texte)
+
+	def Voxbi.get_pairs(texte)
 		paires_dispo = File.open("#{ROOT}/data/paires_disponibles.csv").read.split("\n")
 		api = apimatch(texte).join "_"
 		puts api.inspect
-		fichiers = []
+		pairs = []
 		while api.length !=0
-			paires_dispo.each do |paires|
-				if api.match(/^#{paires}/)
-					fichiers << "#{ROOT}/data/paires/#{paires}.ogg"
-					api = api.sub(/^#{paires}/,"")
+			paires_dispo.each do |pair|
+				if api.match(/^#{pair}/)
+					pairs << pair
+					api = api.sub(/^#{pair}/,"")
 					break
 				end
 			end
 		end
+		pairs
+	end
+		
+	def Voxbi.voxbi(texte)
+		fichiers = get_pairs(texte).map{ |pair| "#{ROOT}/data/paires/#{pair}.ogg" }
 		`sox #{fichiers.join(" ")} #{output_path}`
 		`aplay  #{output_path}`
 	end
