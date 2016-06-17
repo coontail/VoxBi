@@ -66,6 +66,8 @@ module Voxbi
 				end
 			end
 		end
+	rescue 
+		[]
 	end
 
 	def Voxbi.apimatch(texte)
