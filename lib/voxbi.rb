@@ -29,8 +29,8 @@ module Voxbi
 		@liaisons ||= parseCSV "liaisons"
 	end
 
-	def Voxbi.set_output_path(p)
-		@output_path = p
+	def Voxbi.set_output_path(path)
+		@output_path = path
 	end
 
 	def Voxbi.output_path
@@ -38,7 +38,7 @@ module Voxbi
 	end
 	
 	def Voxbi.apply_exceptions
-		exceptions.each {|k,v| dict[k] = v}
+		exceptions.each { |k,v| dict[k] = v }
 	end
 
 	def Voxbi.clean(texte)
@@ -92,7 +92,6 @@ module Voxbi
 	def Voxbi.get_pairs(texte)
 		paires_dispo = File.open("#{ROOT}/data/paires_disponibles.csv").read.split("\n")
 		api = apimatch(texte).join "_"
-		puts api.inspect
 		pairs = []
 		while api.length !=0
 			paires_dispo.each do |pair|
