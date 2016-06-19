@@ -104,6 +104,19 @@ module Voxbi
 		end
 		pairs
 	end
+
+	def Voxbi.get_syllables(text)
+		pairs = Voxbi.get_pairs(text)
+		[''].tap do |syllables|
+			pairs.each do |pair|
+				if pair =~ /[ɛøαϵiaoɔσyuœπeµwj]/
+					syllables << pair
+				else
+					syllables.last += pair
+				end
+			end
+		end
+	end
 		
 	def Voxbi.voxbi(texte)
 		fichiers = get_pairs(texte).map{ |pair| "#{ROOT}/data/paires/#{pair}.ogg" }
