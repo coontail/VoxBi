@@ -106,9 +106,13 @@ module Voxbi
 	end
 
 	def Voxbi.get_syllables(text)
-		pairs = Voxbi.get_pairs(text)
-		[].tap do |syllables|
-			pairs.each do |pair|
+		pairs = Voxbi.get_pairs(text) - ["_"]
+		[''].tap do |syllables|		
+			pairs.each_with_index do |pair, index|
+				if index == 2
+					syllables.last << pair
+				end
+				
 				if pair =~ /[ɛøαϵiaoɔσyuœπeµwj]/
 					syllables << pair
 				else
