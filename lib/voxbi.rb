@@ -119,7 +119,7 @@ module Voxbi
           syllables.last << pair
         end
       end
-    end
+    end.reject(&:blank?)
   end
 		
 	def Voxbi.voxbi(texte)
