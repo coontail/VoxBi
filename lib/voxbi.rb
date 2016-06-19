@@ -105,22 +105,22 @@ module Voxbi
 		pairs
 	end
 
-	def Voxbi.get_syllables(text)
-		pairs = Voxbi.get_pairs(text) - ["_"]
-		[''].tap do |syllables|		
-			pairs.each_with_index do |pair, index|
-				if index == 2
-					syllables.last << pair
-				end
-				
-				if pair =~ /[ɛøαϵiaoɔσyuœπeµwj]/
-					syllables << pair
-				else
-					syllables.last << pair
-				end
-			end
-		end
-	end
+  def Voxbi.get_syllables(text)
+    pairs = Voxbi.get_pairs(text) - ["_"]
+    [''].tap do |syllables|   
+      pairs.each_with_index do |pair, index|
+        if syllables.last =~ /[ɛøαϵiaoɔσyuœπeµwj]/
+          if pair =~ /[ɛøαϵiaoɔσyuœπeµwj]/
+            syllables << pair
+          else
+            syllables.last << pair
+          end
+        else
+          syllables.last << pair
+        end
+      end
+    end
+  end
 		
 	def Voxbi.voxbi(texte)
 		fichiers = get_pairs(texte).map{ |pair| "#{ROOT}/data/paires/#{pair}.ogg" }
