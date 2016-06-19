@@ -107,12 +107,12 @@ module Voxbi
 
 	def Voxbi.get_syllables(text)
 		pairs = Voxbi.get_pairs(text)
-		[''].tap do |syllables|
+		[].tap do |syllables|
 			pairs.each do |pair|
 				if pair =~ /[ɛøαϵiaoɔσyuœπeµwj]/
 					syllables << pair
 				else
-					syllables.last += pair
+					syllables.last << pair
 				end
 			end
 		end
