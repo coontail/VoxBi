@@ -1,42 +1,21 @@
 #!/usr/bin/env ruby
 
-require "json"
-require "numbers_and_words"
+ROOT = File.expand_path("../..", __FILE__).freeze
+DATA_PATH = "#{ROOT}/data".freeze
+DEFAULT_OUTPUT_PATH = "#{DATA_PATH}/paires.wav".freeze
 
-module Voxbi
-
-	ROOT = File.expand_path("../..", __FILE__)
-	@output_path = "#{ROOT}/data/paires.wav"
-	eval(File.read("#{ROOT}/lib/special_chars.rb"))
-
-	def Voxbi.parseCSV(path)
-		Hash[File.open("#{ROOT}/data/#{path}.csv").read.split("\n").map {|ligne| ligne.split("#")}]
+class Voxbi
+	def initialize(text, output_path: DEFAULT_OUTPUT_PATH)
+		@text = text
+		@output_path = output_path
 	end
 
-	def Voxbi.dict
-		@dict ||= JSON.parse(File.read("#{ROOT}/data/phono.json"))
+	def parse_csv(path)
+		content = File.open("#{DATA_PATH}#{path}.csv").read
+		rows = content.split("\n").map {|ligne| ligne.split("#")}]
+		Hash[rows]
 	end
 
-	def Voxbi.exceptions
-		@exceptions ||= parseCSV "exceptions"
-	end
-
-	def Voxbi.conversion
-		@conversion ||= parseCSV "conversion"
-	end
-
-	def Voxbi.liaisons
-		@liaisons ||= parseCSV "liaisons"
-	end
-
-	def Voxbi.set_output_path(path)
-		@output_path = path
-	end
-
-	def Voxbi.output_path
-		@output_path
-	end
-	
 	def Voxbi.apply_exceptions
 		exceptions.each { |k,v| dict[k] = v }
 	end
@@ -66,7 +45,7 @@ module Voxbi
 				end
 			end
 		end
-	rescue 
+	rescue
 		[]
 	end
 
@@ -107,7 +86,7 @@ module Voxbi
 
   def Voxbi.get_syllables(text)
     pairs = Voxbi.get_pairs(text) - ["_"]
-    [''].tap do |syllables|   
+    [''].tap do |syllables|
       pairs.each_with_index do |pair, index|
         if syllables.last =~ /[ɛøαϵiaoɔσyuœπeµwj]/
           if pair =~ /[ɛøαϵiaoɔσyuœπeµwj]/
@@ -121,11 +100,11 @@ module Voxbi
       end
     end.reject(&:blank?)
   end
-		
-	def Voxbi.voxbi(texte)
-		fichiers = get_pairs(texte).map{ |pair| "#{ROOT}/data/paires/#{pair}.ogg" }
-		`sox #{fichiers.join(" ")} #{output_path}`
-		`aplay  #{output_path}`
+
+	def read
+		file_paths = get_pairs(texte).map{ |pair| "#{DATA_PATH}/pairs/#{pair}.ogg" }
+		`sox #{file_paths.join(" ")} #{output_path}`
+		`aplay #{output_path}`
 	end
 
 
