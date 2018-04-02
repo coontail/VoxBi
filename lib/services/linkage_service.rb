@@ -37,5 +37,4 @@ class LinkageService
   def linkage_rule_for(link_string)
     linkage.select {|k,v| link_string =~ /#{k}/ }.first
   end
-
 end

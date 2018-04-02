@@ -26,5 +26,4 @@ class GetPairsService
       end
     end
   end
-
 end

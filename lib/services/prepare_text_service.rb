@@ -46,5 +46,4 @@ class PrepareTextService
       number.to_words.gsub("-"," ").split
     end
   end
-
 end

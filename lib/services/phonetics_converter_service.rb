@@ -39,5 +39,4 @@ class PhoneticsConverterService
   def conversion_rule_for(word)
     conversion.detect{ |rule, phonetic| word =~ /#{rule}/ }
   end
-
 end
