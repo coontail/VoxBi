@@ -1,6 +1,8 @@
 class GetPairsService
   include Rulable
 
+  memoize_csv :available_pairs
+
   attr_reader :phonetic_text
 
   def initialize(phonetic_text)

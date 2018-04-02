@@ -1,6 +1,8 @@
 class LinkageService
   include Rulable
 
+  memoize_csv :linkage
+
   attr_accessor :prepared_text, :phonetic_text
 
   def initialize(prepared_text, phonetic_text)
@@ -9,10 +11,7 @@ class LinkageService
   end
 
   def call
-    dup_phonetic_text
     apply_linkage
-
-    @dup_phonetic_text
   end
 
   private
@@ -23,15 +22,17 @@ class LinkageService
 
   def apply_linkage
     prepared_text.each_with_index do |word, index|
-      if @dup_phonetic_text[index+1]
-        link_string = word[-1] + @dup_phonetic_text[index+1][0]
+      if dup_phonetic_text[index+1]
+        link_string = word[-1] + dup_phonetic_text[index+1][0]
         linkage_rule = linkage_rule_for(link_string)
 
         if linkage_rule
-          @dup_phonetic_text[index+1] = linkage_rule[1].to_s + @dup_phonetic_text[index+1]
+          dup_phonetic_text[index+1] = linkage_rule[1].to_s + dup_phonetic_text[index+1]
         end
       end
     end
+
+    dup_phonetic_text
   end
 
   def linkage_rule_for(link_string)

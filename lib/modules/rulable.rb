@@ -3,22 +3,12 @@ require "csv"
 
 module Rulable
   DATA_PATH = File.expand_path('../../data', __dir__)
-  CSV_FILENAMES = %w(conversion linkage exceptions available_pairs).freeze
-  JSON_FILENAMES = %w(dictionary).freeze
+  CSV_FILENAMES = %i(conversion linkage exceptions available_pairs).freeze
+  JSON_FILENAMES = %i(dictionary).freeze
 
-  CSV_FILENAMES.each do |filename|
-    define_method(filename) do
-      memoize_file_content(filename, :csv)
-    end
+  def self.included(klass)
+    klass.extend(Macros)
   end
-
-  JSON_FILENAMES.each do |filename|
-    define_method(filename) do
-      memoize_file_content(filename, :json)
-    end
-  end
-
-  private
 
   def memoize_file_content(filename, file_format)
     instance_variable_get("@#{filename}") ||
@@ -44,4 +34,23 @@ module Rulable
     "#{DATA_PATH}/#{filename}" + ".#{file_format}"
   end
 
+  module Macros
+    def memoize_csv(*filenames)
+      permitted_filenames = filenames.select{ |filename| CSV_FILENAMES.include?(filename)  }
+      memoize_file(permitted_filenames, file_format: :csv)
+    end
+
+    def memoize_json(*filenames)
+      permitted_filenames = filenames.select{ |filename| JSON_FILENAMES.include?(filename)  }
+      memoize_file(permitted_filenames, file_format: :json)
+    end
+
+    def memoize_file(filenames, file_format:)
+      filenames.each do |filename|
+        define_method(filename) do
+          memoize_file_content(filename, file_format)
+        end
+      end
+    end
+  end
 end

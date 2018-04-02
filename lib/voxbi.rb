@@ -11,6 +11,8 @@ DEFAULT_OUTPUT_PATH = "#{DATA_PATH}/#{DEFAULT_OUTPUT_FILENAME}.wav".freeze
 class Voxbi
   include Rulable
 
+  memoize_json :dictionary
+
   attr_accessor :text
 
   def initialize(text)

@@ -3,6 +3,8 @@ require "timeout"
 class PhoneticsConverterService
   include Rulable
 
+  memoize_csv :conversion
+
   DEFAULT_TIMEOUT = 5.freeze
 
   attr_accessor :word, :phonetized_word
