@@ -1,4 +1,7 @@
 class LinkageService
+  include Rulable
+
+  attr_accessor :prepared_text, :phonetic_text
 
   def initialize(prepared_text, phonetic_text)
     @prepared_text = prepared_text
@@ -8,6 +11,8 @@ class LinkageService
   def call
     dup_phonetic_text
     apply_linkage
+
+    @dup_phonetic_text
   end
 
   private
@@ -19,11 +24,18 @@ class LinkageService
   def apply_linkage
     prepared_text.each_with_index do |word, index|
       if @dup_phonetic_text[index+1]
-        link = word[-1] + @dup_phonetic_text[index+1][0]
-        match = linkage.select {|k,v| link =~ /#{k}/ }.first
-        match ? @dup_phonetic_text[index+1] = match[1].to_s + @dup_phonetic_text[index+1] : next
+        link_string = word[-1] + @dup_phonetic_text[index+1][0]
+        linkage_rule = linkage_rule_for(link_string)
+
+        if linkage_rule
+          @dup_phonetic_text[index+1] = linkage_rule[1].to_s + @dup_phonetic_text[index+1]
+        end
       end
     end
+  end
+
+  def linkage_rule_for(link_string)
+    linkage.select {|k,v| link_string =~ /#{k}/ }.first
   end
 
 end

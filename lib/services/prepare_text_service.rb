@@ -7,10 +7,11 @@ class PrepareTextService
 
   def initialize(text)
     @text = text
+    @prepared_text = text.dup
   end
 
   def call
-    dup_text
+    downcase_text!
     remove_special_characters!
     split_text!
     wordify_numbers!
@@ -20,17 +21,19 @@ class PrepareTextService
 
   private
 
-  def dup_text
-    prepared_text = text.dup
-  end
-
-  def remove_special_characters!
-    prepared_tex.gsub!(SPECIAL_CHARACTERS, "")
+  def downcase_text!
+    @prepared_text.downcase!
   end
 
   def split_text!
-    prepared_text.split!
+    @prepared_text = @prepared_text.split
   end
+
+  def remove_special_characters!
+    prepared_text.gsub!(SPECIAL_CHARACTERS, "")
+  end
+
+  # Other service ?
 
   def wordify_numbers!
     prepared_text.map! do |word|
