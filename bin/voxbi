@@ -3,6 +3,6 @@
 require "json"
 
 ROOT = File.expand_path("../..", __FILE__)
-require "#{root}/lib/voxbi.rb"
+require "#{ROOT}/lib/voxbi"
 
 Voxbi.new(ARGV[0]).read
