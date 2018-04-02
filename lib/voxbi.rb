@@ -1,5 +1,8 @@
 require "require_all"
-require_all "lib/**/*.rb"
+
+File.expand_path('..', __dir__).tap do |root_path|
+  require_all "#{root_path}/lib/**/*.rb"
+end
 
 class Voxbi
   include Rulable
