@@ -1,12 +1,5 @@
-#!/usr/bin/env ruby
-
 require "require_all"
 require_all "lib/**/*.rb"
-
-ROOT_PATH = File.expand_path('..', __dir__).freeze
-DATA_PATH = "#{ROOT_PATH}/data".freeze
-DEFAULT_OUTPUT_FILENAME = 'pairs'
-DEFAULT_OUTPUT_PATH = "#{DATA_PATH}/#{DEFAULT_OUTPUT_FILENAME}.wav".freeze
 
 class Voxbi
   include Rulable
@@ -14,6 +7,11 @@ class Voxbi
   memoize_json :dictionary
 
   attr_accessor :text
+
+  ROOT_PATH = File.expand_path('..', __dir__).freeze
+  DATA_PATH = "#{ROOT_PATH}/data".freeze
+  DEFAULT_OUTPUT_FILENAME = 'pairs'
+  DEFAULT_OUTPUT_PATH = "#{DATA_PATH}/#{DEFAULT_OUTPUT_FILENAME}.wav".freeze
 
   def initialize(text)
     @text = text
