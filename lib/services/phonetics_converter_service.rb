@@ -1,8 +1,5 @@
-require "timeout"
-
 class PhoneticsConverterService
-  DEFAULT_TIMEOUT = 5.freeze
-
+  include Timeoutable
   attr_accessor :word, :phonetized_word
 
   def initialize(word)
@@ -12,16 +9,9 @@ class PhoneticsConverterService
 
   def call
     with_timeout { phonetize_word }
-    phonetized_word
   end
 
   private
-
-  def with_timeout(&block)
-    Timeout::timeout(DEFAULT_TIMEOUT) do
-      block.call
-    end
-  end
 
   def phonetize_word
     dup_word = word.dup
@@ -32,6 +22,8 @@ class PhoneticsConverterService
         phonetized_word << phonetic.to_s
       end
     end
+
+    phonetized_word
   end
 
   def conversion_rule_for(word)

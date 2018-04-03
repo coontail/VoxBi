@@ -1,4 +1,6 @@
 class GetPairsService
+  include Timeoutable
+
   attr_reader :phonetic_text
 
   def initialize(phonetic_text)
@@ -20,7 +22,7 @@ class GetPairsService
       while word.length != 0
         matching_pair = RuleStore.available_pairs.detect{ |pair| word.match(/^#{pair}/) }
         word.sub!(/^#{matching_pair}/,"")
-        pairs << matching_pair
+        pairs << matching_pair.dup
       end
     end
   end
