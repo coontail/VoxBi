@@ -1,10 +1,6 @@
 require "timeout"
 
 class PhoneticsConverterService
-  include Rulable
-
-  memoize_csv :conversion
-
   DEFAULT_TIMEOUT = 5.freeze
 
   attr_accessor :word, :phonetized_word
@@ -39,6 +35,6 @@ class PhoneticsConverterService
   end
 
   def conversion_rule_for(word)
-    conversion.detect{ |rule, phonetic| word =~ /#{rule}/ }
+    RuleStore.conversion.detect{ |rule, phonetic| word =~ /#{rule}/ }
   end
 end

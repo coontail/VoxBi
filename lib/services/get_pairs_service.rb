@@ -1,8 +1,4 @@
 class GetPairsService
-  include Rulable
-
-  memoize_csv :available_pairs
-
   attr_reader :phonetic_text
 
   def initialize(phonetic_text)
@@ -22,7 +18,7 @@ class GetPairsService
 
     [].tap do |pairs|
       while word.length != 0
-        matching_pair = available_pairs.detect{ |pair| word.match(/^#{pair}/) }
+        matching_pair = RuleStore.available_pairs.detect{ |pair| word.match(/^#{pair}/) }
         word.sub!(/^#{matching_pair}/,"")
         pairs << matching_pair
       end

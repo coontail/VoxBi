@@ -5,10 +5,6 @@ File.expand_path('..', __dir__).tap do |root_path|
 end
 
 class Voxbi
-  include Rulable
-
-  memoize_json :dictionary
-
   attr_accessor :text
 
   ROOT_PATH = File.expand_path('..', __dir__).freeze
@@ -46,7 +42,7 @@ class Voxbi
 
   def phonetic_text
     @phonetic_text ||= prepared_text.map do |word|
-      dictionary[word] ||
+      RuleStore.dictionary[word] ||
       PhoneticsConverterService.new(word).call
     end
   end

@@ -1,8 +1,4 @@
 class LinkageService
-  include Rulable
-
-  memoize_csv :linkage
-
   attr_accessor :prepared_text, :phonetic_text
 
   def initialize(prepared_text, phonetic_text)
@@ -36,6 +32,6 @@ class LinkageService
   end
 
   def linkage_rule_for(link_string)
-    linkage.select {|k,v| link_string =~ /#{k}/ }.first
+    RuleStore.linkage.select {|k,v| link_string =~ /#{k}/ }.first
   end
 end
